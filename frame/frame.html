@@ -207,7 +207,7 @@
                 region.addEventListener('mouseleave', () => {
                     if (!isLocked) {
                         console.log(`❄️ Mouse left ${pathId}.`);
-                        backgroundImage.src = 'Anran/frame/black_and_white.JPG';
+                        backgroundImage.src = 'black_and_white.JPG';
                     }
                 });
 
@@ -229,7 +229,7 @@
 
     closeButton.addEventListener('click', () => {
         console.log("🗑️ Reset view");
-        backgroundImage.src = '/Anran/frame/black_and_white.JPG';
+        backgroundImage.src = 'black_and_white.JPG';
         hoverText.innerHTML = `<h1>I Framed My Memories</h1><p>The branches stretch like veins, each one holding a moment, a whisper of time etched in fragile lines.</p>`;
         closeButton.style.display = "none";
         isLocked = false;
