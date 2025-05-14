@@ -6,9 +6,12 @@ let spacingY = 12;
 let mainColor;
 let prevMouse;
 
-
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  // Use the device's screen height instead of window height
+  let screenHeight = window.screen.height;
+  
+  createCanvas(windowWidth, screenHeight); // ✅ Use screen height instead of window height
+
   mainColor = color('#a3d9ff');
   textSize(fontSize);
   textAlign(LEFT, TOP);
@@ -20,6 +23,7 @@ function setup() {
   canvas.addEventListener('touchstart', e => e.preventDefault());
   canvas.addEventListener('touchmove', e => e.preventDefault());
 }
+
 
 function draw() {
   background(0);
