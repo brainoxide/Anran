@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lyric Visualizer</title>
+    <title>The Third Bull Never Left</title>
     <style>
         body {
             display: flex;
@@ -14,21 +14,27 @@
             background-color: #1b1b1b;
             color: white;
             font-family: Arial, sans-serif;
+            overflow: hidden;
         }
         #lyrics {
-            height: 300px;
+            height: 400px;
             overflow: hidden;
             width: 600px;
-            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         #lyrics p {
             margin: 5px 0;
-            text-align: center;
             font-size: 18px;
+            opacity: 0.5;
+            transition: all 0.3s;
         }
         .active {
             color: #00ffcc;
-            font-size: 20px;
+            font-size: 22px;
+            opacity: 1;
         }
     </style>
 </head>
@@ -76,8 +82,12 @@
                     Array.from(paragraphs).forEach(p => p.classList.remove('active'));
                     paragraphs[i].classList.add('active');
 
-                    // Scroll the active lyric into view
-                    paragraphs[i].scrollIntoView({ behavior: "smooth", block: "center" });
+                    // Scroll the active lyric into the middle
+                    const offset = paragraphs[i].offsetTop - lyricsContainer.clientHeight / 2 + paragraphs[i].clientHeight / 2;
+                    lyricsContainer.scrollTo({
+                        top: offset,
+                        behavior: "smooth"
+                    });
                     break;
                 }
             }
