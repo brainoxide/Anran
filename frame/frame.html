@@ -105,7 +105,7 @@
 <body>
 
 <div id="container">
-    <img id="backgroundImage" src="black_and_white.jpg" alt="Background Image">
+    <img id="backgroundImage" src="black_and_white.JPG" alt="Background Image">
     <object id="svgObject" data="frames.svg" type="image/svg+xml"></object>
     <div id="hoverText">
         <h1>I Framed My Memories</h1>
@@ -125,47 +125,47 @@
     // 🔄 Define your regions here
     const regions = {
         path1: {
-            image: 'frame1.jpg',
+            image: 'frame1.JPG',
             title: 'Sintra, Portugal',
             text: '17 January, 2025: the Cabo da Roca Lighthouse. They say it is the loneliest job, being the lighthouse keeper at the end of the world.'
         },
         path2: {
-            image: 'frame2.jpg',
+            image: 'frame2.JPG',
             title: 'Lisbon, Portugal',
             text: '16 January, 2025: watching sunset from a boat in Tagus River. The sunlight stung my eyes and the wind scattered my mind. I held onto the pastel de nata in my pockey that I got from that shop in Belém, the one that supposedly makes the best in the world. It somehow anchored me. '
         },
         path3: {
-            image: 'frame3.jpg',
+            image: 'frame3.JPG',
             title: 'Barcelona, Spain',
             text: '19 December, 2024: we got to Barcelona Beach at 6 AM to catch the sunrise. We watched as the sky shifted from tar black to deep blue, then purple, then pink, and finally back to blue. I could be biased becasue I had barely slept for 3 days, but I would say it was the dreamiest moment of that trip. '
         },
         path4: {
-            image: 'frame4.jpg',
+            image: 'frame4.JPG',
             title: 'Highlands, Scotland',
             text: '12 October, 2024: It rained when we were hiking in Glenfinnan. We were soaken wet. But for a brief moment, the sun broke through. Suddenly, everyone stopped and stared. I followed their gaze. And there it was, a rainbow. It was the first time I had ever seen one.'
         },
         path5: {
-            image: 'frame5.jpg',
+            image: 'frame5.JPG',
             title: 'Hague, Netherlands',
             text: '8 April, 2025: I felt like I had been avoiding tulips, for reasons unknown to me. If I had to guess, it is becasue they bloom in spring. And spring, with all its hope, can also mean disappointment. Hope is a dangerous thing for a woman like me to have, but I guess, I have it.'
         },
         path6: {
-            image: 'frame6.jpg',
+            image: 'frame6.JPG',
             title: 'Paris, France',
             text: '14 April, 2025: It was late when I finally got to Paris. I took the beer I had bought in Belgium and sat by the river near my hostel. The lights on the water shimmered like a Van Gogh painting. The river is Pont Louis-Philippe, by the way.'
             },
         path7: {
-            image: 'frame7.jpg',
+            image: 'frame7.JPG',
             title: 'Bruges, Belgium',
             text: '12 April, 2025: this is the lake of love at Bruges. Nothing special really. But hey, maybe I was doing it the wrong way. You should not come here all by yourslef.'
         },
         path8: {
-            image: 'frame8.jpg',
+            image: 'frame8.JPG',
             title: 'Newcastle, England',
             text: '20 April, 2025: I had just returned back from my trip. The cherry blossoms were in full bloom, more beautiful than any attraction I had seen along the way. Standing beneath that canopy of pink, I thought to myself, I should appreciate life in these everyday moments, not just when I’m away.'
         },
         path9: {
-            image: 'frame9.jpg',
+            image: 'frame9.JPG',
             title: 'Lisbon, Portugal',
             text: '15 January, 2025: I thought it would be kind of weird, standing in the place I had dreamt (literally, in my sleep) for years. But it was a very peaceful and quiet moment. '
         }
@@ -206,7 +206,7 @@
                 region.addEventListener('mouseleave', () => {
                     if (!isLocked) {
                         console.log(`❄️ Mouse left ${pathId}.`);
-                        backgroundImage.src = 'black_and_white.jpg';
+                        backgroundImage.src = 'black_and_white.JPG';
                     }
                 });
 
@@ -228,7 +228,7 @@
 
     closeButton.addEventListener('click', () => {
         console.log("🗑️ Reset view");
-        backgroundImage.src = 'black_and_white.jpg';
+        backgroundImage.src = 'black_and_white.JPG';
         hoverText.innerHTML = `<h1>I Framed My Memories</h1><p>The branches stretch like veins, each one holding a moment, a whisper of time etched in fragile lines.</p>`;
         closeButton.style.display = "none";
         isLocked = false;
