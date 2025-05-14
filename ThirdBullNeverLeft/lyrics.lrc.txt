@@ -1,0 +1,4 @@
+[00:00.00]Line of lyrics 1
+[00:05.20]Line of lyrics 2
+[00:10.40]Line of lyrics 3
+[00:15.60]Line of lyrics 4
