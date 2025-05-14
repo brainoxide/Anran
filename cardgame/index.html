@@ -12,6 +12,9 @@
             margin: 0;
             background-color: #f3f3f3;
             flex-direction: column;
+            background-image: url('cardbg.png');
+            background-size: cover;
+            background-position: center;
         }
 
         button {
@@ -19,6 +22,7 @@
             font-size: 18px;
             cursor: pointer;
             margin-bottom: 20px;
+            z-index: 1;
         }
 
         #cardContainer {
@@ -28,24 +32,28 @@
             width: 80vw;
             max-width: 600px;
             margin-top: 20px;
+            z-index: 1;
         }
 
         .card {
             width: 100%;
             max-width: 120px;
             cursor: pointer;
+            visibility: visible;
         }
 
         #countdown {
             font-size: 24px;
             margin-bottom: 15px;
-            color: #333;
+            color: brown;
+            z-index: 1;
         }
 
         #mistakeCount {
             font-size: 18px;
             margin-top: 20px;
-            color: #333;
+            color: brown;
+            z-index: 1;
         }
     </style>
 </head>
@@ -62,6 +70,10 @@
         const cardContainer = document.getElementById("cardContainer");
         const countdownDisplay = document.getElementById("countdown");
         const mistakeCountDisplay = document.getElementById("mistakeCount");
+
+        // Preload back image to prevent flicker
+        const backImage = new Image();
+        backImage.src = "backcard.png";
 
         // Audio for card flip
         const flipSound = new Audio("cardflip.mp3");
@@ -84,13 +96,20 @@
                     countdownDisplay.innerText = "Go!";
                     clearInterval(interval);
 
-                    // 🔄 Flip all cards back after countdown
+                    // 🔄 Flip all cards back smoothly after countdown
                     setTimeout(() => {
                         countdownDisplay.innerText = "";
                         document.querySelectorAll(".card").forEach(card => {
-                            card.src = "backcard.png";
+                            card.style.visibility = "hidden"; // Hide smoothly
                         });
-                        enableCardClicks(); // Enable clicking only after they are hidden
+
+                        setTimeout(() => {
+                            document.querySelectorAll(".card").forEach(card => {
+                                card.src = "backcard.png"; // Change to back image
+                                card.style.visibility = "visible"; // Show again
+                            });
+                            enableCardClicks(); // Enable clicks after flip
+                        }, 300); // Delay for smooth transition
                     }, 500);
                 } else {
                     countdownDisplay.innerText = `Memorise the cards: ${countdown}`;
@@ -116,7 +135,9 @@
                 { src: "rightcardr.png", group: "D" },
                 { src: "rightcardr.png", group: "D" },
                 { src: "leftcardr.png", group: "E" },
-                { src: "leftcardr.png", group: "E" }
+                { src: "leftcardr.png", group: "E" },
+                { src: "cardblack2.png", group: "F" },
+                { src: "cardblack2.png", group: "F" }
             ];
 
             shuffle(cardData);
@@ -155,7 +176,7 @@
                                 second.style.pointerEvents = "none";
 
                                 // Check if the game is over
-                                if (document.querySelectorAll(".card[style*='opacity: 0']").length === 10) {
+                                if (document.querySelectorAll(".card[style*='opacity: 0']").length === 12) {
                                     mistakeCountDisplay.innerText = `Game Over! You made ${mistakeCount} mistake(s).`;
                                 }
                             }, 500);
