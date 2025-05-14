@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Emotion Flower</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+</head>
+<body>
+<script>
+let state = 'idle'; // idle | blooming | bloomed | dying | dead
+let bloomProgress = 0;
+let swayAngle = 0;
+let petals = [];
+
+function setup() {
+  createCanvas(400, 400);
+  angleMode(RADIANS);
+  textAlign(CENTER);
+  textSize(16);
+  startSpeech();
+}
+
+function draw() {
+  background(240);
+  fill(0);
+  text("Say 'I love you' to bloom ，'I hate you' to wither", width / 2, 30);
+
+  // 地面
+  fill(100, 200, 100);
+  rect(0, height - 50, width, 50);
+
+  push();
+  translate(width / 2, height - 50);
+
+  if (state === 'blooming') {
+    bloomProgress += 0.01;
+    if (bloomProgress >= 1) {
+      bloomProgress = 1;
+      state = 'bloomed';
+    }
+  }
+
+  if (state === 'bloomed') {
+    swayAngle = sin(frameCount * 0.05) * 0.1; // gentler sway
+  }
+
+  if (state === 'dying') {
+    if (petals.length === 0) {
+      generatePetals();
+    }
+    updatePetals();
+    if (petals.every(p => p.y > height + 20)) {
+      state = 'dead';
+    }
+  }
+
+  // 花茎
+  rotate(state === 'bloomed' || state === 'dying' ? swayAngle : 0);
+  stroke(0, 180, 0);
+  strokeWeight(4);
+  line(0, 0, 0, -150);
+
+  if (state !== 'dying' && state !== 'dead') {
+    drawFlower(0, -150, bloomProgress);
+  }
+
+  pop();
+
+  if (state === 'dying' || state === 'dead') {
+    drawFallingPetals();
+  }
+}
+
+function drawFlower(x, y, progress) {
+  push();
+  translate(x, y);
+  noStroke();
+
+  let petalCount = 6;
+  let petalSize = 20 + progress * 15;
+  let petalAlpha = map(progress, 0, 1, 0, 255);
+
+  if (progress > 0) {
+    fill(255, 100, 150, petalAlpha); // pink petals
+    for (let i = 0; i < petalCount; i++) {
+      let angle = TWO_PI * i / petalCount;
+      let px = cos(angle) * (15 + progress * 10);
+      let py = sin(angle) * (15 + progress * 10);
+      ellipse(px, py, petalSize, petalSize * 1.2);
+    }
+  }
+
+  // yellow center always visible
+  fill(255, 200, 0, 255);
+  ellipse(0, 0, 20 + progress * 10);
+  pop();
+}
+
+function generatePetals() {
+  let petalCount = 6;
+  petals = [];
+  for (let i = 0; i < petalCount; i++) {
+    let angle = TWO_PI * i / petalCount;
+    let px = width / 2 + cos(angle) * 25;
+    let py = height - 200 + sin(angle) * 25;
+    petals.push({
+      x: px,
+      y: py,
+      dx: random(-0.5, 0.5),
+      dy: random(1, 2),
+      size: random(20, 30),
+      delay: frameCount + i * 10,
+      fade: 0,
+      angle: random(TWO_PI)
+    });
+  }
+}
+
+function updatePetals() {
+  for (let p of petals) {
+    if (frameCount > p.delay) {
+      p.y += p.dy;
+      p.x += p.dx;
+      p.fade = min(p.fade + 5, 255);
+      p.angle += 0.05; // slight rotation
+    }
+  }
+}
+
+function drawFallingPetals() {
+  noStroke();
+  for (let p of petals) {
+    let grey = map(p.fade, 0, 255, 255, 0);
+    fill(grey);
+    push();
+    translate(p.x, p.y);
+    rotate(p.angle);
+    ellipse(0, 0, p.size, p.size * 1.2);
+    pop();
+  }
+}
+
+function startSpeech() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert("Your broswer does not support speech recognition");
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.lang = 'en-US';
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
+    console.log("🗣️ You said:", transcript);
+
+    if ((transcript.includes("i love you") || transcript.includes("开花")) && state !== 'blooming' && state !== 'bloomed') {
+      state = 'blooming';
+    }
+
+    if (transcript.includes("i hate you") && state === 'bloomed') {
+      state = 'dying';
+    }
+  };
+
+  recognition.onerror = (e) => {
+    console.error("Recognition Error：", e);
+  };
+
+  recognition.start();
+  console.log("🎤 Recognition Start");
+}
+</script>
+</body>
+</html>
