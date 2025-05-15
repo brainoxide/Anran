@@ -16,6 +16,7 @@
             font-family: Arial, sans-serif;
             overflow: hidden;
         }
+
         #lyrics {
             height: 400px;
             overflow: hidden;
@@ -24,17 +25,21 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            scroll-behavior: smooth;
         }
+
         #lyrics p {
             margin: 5px 0;
             font-size: 18px;
-            opacity: 0.5;
-            transition: all 0.3s;
+            opacity: 0.3;
+            transition: all 0.3s ease;
         }
+
         .active {
             color: #00ffcc;
             font-size: 22px;
             opacity: 1;
+            text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
         }
     </style>
 </head>
@@ -51,8 +56,8 @@
         const audio = document.getElementById('audio');
         const lyricsContainer = document.getElementById('lyrics');
         const lyrics = [];
-        
-        // Load the LRC file
+
+        // Fetch and parse the LRC file
         fetch('./lyrics.lrc')
             .then(response => response.text())
             .then(data => {
@@ -65,6 +70,7 @@
                         const text = match[3];
                         const time = minutes * 60 + seconds;
                         lyrics.push({ time, text });
+
                         const p = document.createElement('p');
                         p.textContent = text;
                         lyricsContainer.appendChild(p);
@@ -72,7 +78,7 @@
                 });
             });
 
-        // Synchronize the lyrics
+        // Synchronize the lyrics with the audio
         audio.addEventListener('timeupdate', () => {
             const currentTime = audio.currentTime;
             const paragraphs = lyricsContainer.getElementsByTagName('p');
@@ -82,7 +88,7 @@
                     Array.from(paragraphs).forEach(p => p.classList.remove('active'));
                     paragraphs[i].classList.add('active');
 
-                    // Scroll the active lyric into the middle
+                    // 🌟 Smooth scroll to the active lyric
                     const offset = paragraphs[i].offsetTop - lyricsContainer.clientHeight / 2 + paragraphs[i].clientHeight / 2;
                     lyricsContainer.scrollTo({
                         top: offset,
@@ -95,4 +101,3 @@
     </script>
 </body>
 </html>
-
